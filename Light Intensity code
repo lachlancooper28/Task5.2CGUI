@@ -1,0 +1,36 @@
+from gpiozero import PWMLED
+from tkinter import Tk, Scale, HORIZONTAL
+
+# Initialize PWMLEDs for each LED
+blue_led = PWMLED(17)
+green_led = PWMLED(18)
+white_led = PWMLED(27)
+
+# Function to update LED intensities
+def update_leds():
+    blue_intensity = blue_slider.get()
+    green_intensity = green_slider.get()
+    white_intensity = white_slider.get()
+    
+    blue_led.value = blue_intensity / 100.0
+    green_led.value = green_intensity / 100.0
+    white_led.value = white_intensity / 100.0
+
+# Initialize GUI
+root = Tk()
+root.title("LED Intensity Control")
+
+# Create sliders for each LED
+blue_slider = Scale(root, from_=0, to=100, orient=HORIZONTAL, label="Blue LED")
+blue_slider.pack()
+green_slider = Scale(root, from_=0, to=100, orient=HORIZONTAL, label="Green LED")
+green_slider.pack()
+white_slider = Scale(root, from_=0, to=100, orient=HORIZONTAL, label="White LED")
+white_slider.pack()
+
+# Bind update function to slider movements
+blue_slider.bind("<Motion>", lambda event: update_leds())
+green_slider.bind("<Motion>", lambda event: update_leds())
+white_slider.bind("<Motion>", lambda event: update_leds())
+
+root.mainloop()
